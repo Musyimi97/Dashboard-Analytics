@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from .signals import object_viewed_signal
 
 User= settings.AUTH_USER_MODEL
 
@@ -22,3 +23,21 @@ class ObjectViewed(models.Model):
         ordering = ['-timestamp']
         verbose_name = 'Object Viewed'
         verbose_name_plural = 'Objects Viewed'
+
+
+
+def object_viewed_receiver(sender, instance, request, *args, **kwargs):
+    c_type = ContentType.objects.get_for_model(sender)
+    ip_address = None
+    try:
+        ip_address = get_client_ip(request)
+    except:
+        pass
+    new_view_instance = ObjectViewed.objects.create(
+                user=request.user, 
+                content_type=c_type,
+                object_id=instance.id,
+                ip_address=ip_address
+                )
+
+object_viewed_signal.connect(object_viewed_receiver)
