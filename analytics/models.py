@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.contenttypes import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 User=settings.AUTH_USER_MODEL
 
 class ObjectViewed(models.Model):
     # user instance
-    user=models.ForeignKey(blank=True, null=True),
+    user=models.ForeignKey(User, blank=True, null=True),
     # user,product, address, location  
     content_type= models.ForeignKey(ContentType)
     # user id, product id,address id
