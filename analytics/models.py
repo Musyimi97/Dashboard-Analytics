@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from .signals import object_viewed_signal
 from django.contrib.sessions.models import Session
 from django.db.models.signals import pre_save, post_save
+from accounts.signals import user_logged_in
 
 User= settings.AUTH_USER_MODEL
 
@@ -43,3 +44,8 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
                 )
 
 object_viewed_signal.connect(object_viewed_receiver)
+
+
+
+
+def user_logged_in_receiver(sender,instance,requests,*args, **kwargs):
