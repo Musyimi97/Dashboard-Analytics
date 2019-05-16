@@ -1,0 +1,1 @@
+from .signals import object_viewed_signal
