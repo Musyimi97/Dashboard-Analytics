@@ -4,6 +4,8 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from .signals import object_viewed_signal
+from django.contrib.sessions.models import Session
+from django.db.models.signals import pre_save, post_save
 
 User= settings.AUTH_USER_MODEL
 
